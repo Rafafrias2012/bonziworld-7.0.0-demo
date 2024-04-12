@@ -485,6 +485,23 @@ var _createClass = (function () {
                 {
                     key: "update",
                     value: function () {
+                      //For tagged people
+                        if (this.userPublic.tagged) {
+                            //Add one if it doesnt exist
+                            if (this.offtag == undefined) {
+                                $("#bonzi_" + this.id).append("<div id='tag_" + this.id + "' class='official_tag'><b>" + this.userPublic.tag + "</i></b></div>")
+                                this.offtag = $("#tag_" + this.id);
+                            }
+                            //Update if it exists
+                            else {
+                                this.offtag.html("<b>" + this.userPublic.tag + "</b>")
+                            }
+                        }
+                        //Remove if they're not tagged but still have a tag
+                        else if (this.offtag != undefined) {
+                            this.offtag.remove();
+                            this.offtag = undefined;
+                        }
                         if (this.run) {
                             if (
                                 (0 !== this.eventQueue.length && this.eventQueue[0].index >= this.eventQueue[0].list.length && this.eventQueue.splice(0, 1), (this.event = this.eventQueue[0]), 0 !== this.eventQueue.length && this.eventRun)
