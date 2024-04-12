@@ -325,6 +325,9 @@ var _createClass = (function () {
                                         socket.emit("talk", { text: "Hey, " + d.userPublic.name + "!" })
                                     }
                                 },
+                              insult: {
+                                    name: "Insult",
+                                    items: {
                                 asshole: {
                                     name: "Call an Asshole",
                                     callback: function () {
@@ -337,6 +340,8 @@ var _createClass = (function () {
                                         socket.emit("command", { list: ["owo", d.userPublic.name] });
                                     },
                                 },
+                            }
+                        }
                             mod: {
                                 name: "Gamer Mod CMDs",
                                 items: {
