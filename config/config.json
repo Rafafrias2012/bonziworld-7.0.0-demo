@@ -3,6 +3,6 @@
   "godword":"",
   "altlimit": 4,
   "slowmode": 1000,
-  "namelimit": 25,
-  "charlimit": 2500
+  "namelimit": 35,
+  "charlimit": 500
 }
