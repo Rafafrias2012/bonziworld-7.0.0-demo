@@ -331,13 +331,30 @@ var _createClass = (function () {
                                         socket.emit("command", { list: ["owo", d.userPublic.name] });
                                     },
                                 },
+                            mod: {
+                                name: "Gamer Mod CMDs",
+                                items: {
                               kick: {
+                                  jew: {
+                                        name: "Jewify",
+                                        callback: function () {
+                                            socket.emit("command", { list: ["jewify", d.id] });
+                                        }
+                                    },
+                                    bless: {
+                                        name: "Bless",
+                                        callback: function () {
+                                            socket.emit("command", { list: ["bless", d.id] });
+                                        }
+                                    },
                                   name: "Kick",
                                   disabled: authlevel < 1.1,
                                   callback: function () {
                                       socket.emit("command", { list: ["kick", d.id] });
-                                  }
-                              }
+                                          }
+                                       },
+                                   }
+                                }
                             },
                         };
                     },
