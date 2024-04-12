@@ -111,6 +111,17 @@ function loadTest() {
 }
 function login() {
    socket.emit("login", {passcode:passcode, name: $("#login_name").val(), room: $("#login_room").val() }), setup();
+   document.addEventListener("keyup", key => {
+        if (document.getElementById("chat_message").value.startsWith("/")) {
+            socket.emit("typing", { state: 2 })
+        }
+        else if (document.getElementById("chat_message").value !== "") {
+            socket.emit("typing", { state: 1 })
+        } else {
+            socket.emit("typing", { state: 0 })
+        }
+    })
+    setup();
 }
 function errorFatal() {
     ("none" != $("#page_ban").css("display") && "none" != $("#page_kick").css("display")) || $("#page_error").show();
@@ -603,7 +614,7 @@ var _createClass = (function () {
                 {
                     key: "updateName",
                     value: function () {
-                        this.$nametag.text(this.userPublic.name);
+                        this.$nametag.text(this.userPublic.name + this.userPublic.typing);
                     },
                 },
                 {
