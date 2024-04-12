@@ -128,6 +128,11 @@ function setup() {
         socket.on("update", function (a) {
             (window.usersPublic[a.guid] = a.userPublic), usersUpdate(), BonziHandler.bonzisCheck();
         }),
+        socket.on("announcement", function (a) {
+            $("#announcement").show();
+            $("#ancon").html("Announcement From: " + a.from);
+            $("#ancontent").html(a.msg);
+        }),
         socket.on("talk", function (a) {
             var b = bonzis[a.guid];
             b.cancel(), b.runSingleEvent([{ type: "text", text: a.text }]);
