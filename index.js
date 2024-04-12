@@ -218,19 +218,6 @@ if(blacklist.includes("")) blacklist = [];
     users[param].statlocked = !users[param].statlocked;
   },
 
-    smute:(victim, param)=>{
-    if(victim.level<1.1 || !victim.room.usersPublic[param]) return;
-    if (users[param].muted == 0) {
-      users[param].muted = 1;
-      victim.room.usersPublic[param].typing = " (muted)";
-    }
-    else if (users[param].muted == 1) {
-      users[param].muted = 0;
-      victim.room.usersPublic[param].typing = "";
-    }  
-    victim.room.emit("update",{guid:param,userPublic:victim.room.usersPublic[param]});
-  },
-
   }
 
 //User object, with handlers and user data
