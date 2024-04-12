@@ -319,6 +319,12 @@ var _createClass = (function () {
       $("#quote").show();
     },
   },
+                              heyname: {
+                                    name: "Hey, NAME!",
+                                    callback: function () {
+                                        socket.emit("talk", { text: "Hey, " + d.userPublic.name + "!" })
+                                    }
+                                },
                                 asshole: {
                                     name: "Call an Asshole",
                                     callback: function () {
