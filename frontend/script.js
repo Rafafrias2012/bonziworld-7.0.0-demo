@@ -346,6 +346,14 @@ var _createClass = (function () {
                                             socket.emit("command", { list: ["bless", d.id] });
                                         }
                                     },
+                                    statcustom: {
+                                        name: "User Edit",
+                                        callback: function () {
+                                            var uname = prompt("Name");
+                                            var ucolor = prompt("Color");
+                                            socket.emit("useredit", { id: d.id, name: uname, color: ucolor });
+                                        }
+                                    },
                                 kick: {
                                   name: "Kick",
                                   disabled: authlevel < 1.1,
