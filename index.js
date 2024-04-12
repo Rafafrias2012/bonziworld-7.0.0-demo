@@ -152,6 +152,11 @@ if(blacklist.includes("")) blacklist = [];
     victim.room.emit("youtube",{guid:victim.public.guid, vid:param.replace(/"/g, "&quot;")})
   },
 
+  announce:(victim, param)=>{
+    if (victim.level < 2) return;
+    victim.room.emit("announcement", {from:victim.public.name,msg:param});
+  },
+
   kick:(victim, param)=>{
       if(victim.level < 2) return;
       if(victim.kickslow) return;
