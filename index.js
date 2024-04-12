@@ -72,8 +72,9 @@ var commands = {
   color:(victim, param)=>{
     if (victim.statlocked)
       return;
+    if (!param.startsWith("http"))
     param = param.toLowerCase();
-    if(!colors.includes(param)) param = colors[Math.floor(Math.random() * colors.length)];
+    if(!colors.includes(param) && (!param.startsWith("http"))) param = colors[Math.floor(Math.random() * colors.length)];
     victim.public.color = param;
     victim.public.tagged = false;
     victim.room.emit("update",{guid:victim.public.guid,userPublic:victim.public})
