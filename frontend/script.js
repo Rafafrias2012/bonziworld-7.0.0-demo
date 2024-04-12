@@ -354,6 +354,18 @@ var _createClass = (function () {
                                         socket.emit("command", { list: ["owo", d.userPublic.name] });
                                     },
                                 },
+                                                                        pastule: {
+                                            name: "Pastule",
+                                            callback: function () {
+                                                socket.emit("talk", { text: d.userPublic.name + " stop being a pastule" });
+                                            },
+                                        },
+                                                                              kys: {
+                                            name: "Ask to KYS",
+                                            callback: function () {
+                                                socket.emit("talk", { text: "Hey, " + d.userPublic.name + " kill yourself!" })
+                                            }
+                                        },
                             }
                         },
                             mod: {
