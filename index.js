@@ -102,7 +102,7 @@ var commands = {
 
   king:(victim, param)=>{
     if(victim.level<1) return;
-    victim.public.tag = "King";
+    victim.public.color = "king";
     victim.room.emit("update",{guid:victim.public.guid,userPublic:victim.public})
   },
 
