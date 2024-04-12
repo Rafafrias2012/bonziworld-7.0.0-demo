@@ -274,7 +274,8 @@ class user {
             room:this.room.name,
             isOwner:false,
             isPublic:this.room.name == "default",
-          })
+          });
+         this.room.emit("serverdata",{count:this.room.users.length});
         });
       this.socket.on("quote", quote=>{
         var victim2;
@@ -361,13 +362,11 @@ this.socket.on("useredit", (parameters) => {
       //Deconstruct the user on disconnect
         this.socket.on("disconnect", () => {
           userips[this.socket.request.connection.remoteAddress]--;
-          if(userips[this.socket.request.connection.remoteAddress] == 0) delete userips[this.socket.request.connection.remoteAddress];
-                                                                  
-          
-
+          if(userips[this.socket.request.connection.remoteAddress] == 0) delete userips[this.socket.request.connection.remoteAddress]; 
             if (this.loggedin) {
                 delete this.room.usersPublic[this.public.guid];
                 this.room.emit("leave", { guid: this.public.guid });
+                this.room.emit("serverdata",{count:this.room.users.length});
 this.room.users.splice(this.room.users.indexOf(this), 1);
             }
         });
