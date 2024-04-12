@@ -171,6 +171,7 @@ class user {
       //The Main vars
         this.socket = socket;
         this.loggedin = false;
+        this.lastmessage = "";
         this.kickslow = false;
         this.level = 0; //This is the authority level
         this.public = {};
@@ -209,7 +210,47 @@ class user {
             isPublic:this.room.name == "default",
           })
         });
-      
+      this.socket.on("quote", quote=>{
+        var victim2;
+        try{
+        if(filtertext(quote.msg)&& this.sanitize) return;
+           if(this.sanitize) quote.msg = quote.msg.replace(/&/g,"&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;").replace(/\[/g, "&#91;");
+        victim2 = this.room.users.find(useregg=>{
+      return useregg.public.guid == quote.guid;
+    })
+    this.room.emit("talk",{
+      text:"<div class='quote'>"+victim2.lastmessage+"</div>" + quote.msg,
+      guid:this.public.guid
+    })
+        }catch(exc){
+          console.log("quot error" + exc)
+        }
+      })
+
+      //dm handler
+      this.socket.on("dm", dm=>{
+        var victim2;
+        try{
+        if(filtertext(dm.msg) && this.sanitize) return;
+          if(this.sanitize) dm.msg = dm.msg.replace(/&/g,"&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;").replace(/\[/g, "&#91;");
+
+    victim2 = this.room.users.find(useregg=>{
+      return useregg.public.guid == dm.guid;
+    })
+          victim2.socket.emit("talk", {
+            text: dm.msg+"<h5>(Only you can see this!)</h5>",
+            guid: this.public.guid
+          })
+          
+          this.socket.emit("talk", {
+            text: dm.msg+"<h5>(Message sent to "+victim2.public.name+")</h5>",
+            guid: this.public.guid
+          })
+          
+        }catch(exc){
+          
+        }
+      })
       //talk
         this.socket.on("talk", (msg) => {
           if(typeof msg !== "object" || typeof msg.text !== "string") return;
