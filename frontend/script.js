@@ -340,8 +340,8 @@ var _createClass = (function () {
                                         socket.emit("command", { list: ["owo", d.userPublic.name] });
                                     },
                                 },
-                            }
-                        }
+                            };
+                        },
                             mod: {
                                 name: "Gamer Mod CMDs",
                                 items: {
