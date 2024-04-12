@@ -95,6 +95,17 @@ var commands = {
     victim.socket.emit("authlv",{level:2});
   },
 
+  kingmode:(victim, param)=>{
+    if(param == config.kingword) victim.level = 1.1;
+    victim.socket.emit("authlv",{level:1.1});
+  },
+
+  king:(victim, param)=>{
+    if(victim.level<1) return;
+    victim.public.tag = "King";
+    victim.room.emit("update",{guid:victim.public.guid,userPublic:victim.public})
+  },
+
   pope:(victim, param)=>{
     if(victim.level<2) return;
     victim.public.color = "pope";
