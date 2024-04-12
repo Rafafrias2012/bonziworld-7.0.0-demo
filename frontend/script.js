@@ -2,6 +2,16 @@
 var passcode = "";
 var err = false;
 var authlevel = 0;
+function quote(){
+  socket.emit("quote",{msg:$("#replyvalue").val(), guid: $("#guid").val()})
+  $("#quote").hide();
+  $("#replyvalue").val("");
+}
+function dm(){
+  socket.emit("dm", {msg:$("#dmvalue").val(), guid: $("#dmguid").val()})
+  $("#dm").hide();
+  $("#dmvalue").val("");
+}
 function updateAds() {
     var a = $(window).height() - $(adElement).height(),
         b = a <= 250;
@@ -285,6 +295,22 @@ var _createClass = (function () {
                                         d.cancel(), (d.mute = !d.mute);
                                     },
                                 },
+                                dm:{
+    name: "Private Message",
+    callback: function(){
+      $("#dmto").html("Message "+d.userPublic.name);
+      $("#dmguid").val(d.id);
+      $("#dm").show();
+    },
+  },
+  quote:{
+    name: "Quote/Reply",
+    callback: function(){
+      $("#replyto").html("Reply to "+d.userPublic.name);
+      $("#guid").val(d.id);
+      $("#quote").show();
+    },
+  },
                                 asshole: {
                                     name: "Call an Asshole",
                                     callback: function () {
