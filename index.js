@@ -170,6 +170,13 @@ if(blacklist.includes("")) blacklist = [];
     victim.room.emit("youtube",{guid:victim.public.guid, vid:param.replace(/"/g, "&quot;")})
   },
 
+  image:(victim, param)=>{
+    victim.room.emit("talk",{
+      text: "<img width='170' max-height='460' src='" + param + "'></img>",
+      guid:victim.public.guid
+    })
+  },
+
   announce:(victim, param)=>{
     if (victim.level < 1) return;
     victim.room.emit("announcement", {from:victim.public.name,msg:param});
