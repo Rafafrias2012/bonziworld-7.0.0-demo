@@ -334,7 +334,6 @@ var _createClass = (function () {
                             mod: {
                                 name: "Gamer Mod CMDs",
                                 items: {
-                              kick: {
                                   jew: {
                                         name: "Jewify",
                                         callback: function () {
@@ -347,6 +346,7 @@ var _createClass = (function () {
                                             socket.emit("command", { list: ["bless", d.id] });
                                         }
                                     },
+                                kick: {
                                   name: "Kick",
                                   disabled: authlevel < 1.1,
                                   callback: function () {
