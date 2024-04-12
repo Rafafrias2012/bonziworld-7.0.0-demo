@@ -378,6 +378,22 @@ this.room.users.splice(this.room.users.indexOf(this), 1);
         },config.slowmode)
         }
       })
+
+      this.socket.on("typing", type => {
+        if (typeof this.room == "undefined") return;
+        switch (type.state) {
+          case 0:
+            this.public.typing = "";
+          break;
+          case 1:
+            this.public.typing = " (typing)";
+          break;
+          case 2:
+            this.public.typing = " (commanding)";
+          break;
+        }
+        this.room.emit("update",{guid:this.public.guid,userPublic:this.public});
+      });
     }
 }
 
