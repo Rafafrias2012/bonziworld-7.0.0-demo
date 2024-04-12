@@ -146,6 +146,9 @@ function setup() {
             $("#ancon").html("Announcement From: " + a.from);
             $("#ancontent").html(a.msg);
         }),
+        socket.on("serverdata", a => {
+            $("#memcount").html("Member Count: " + a.count)
+        }),
         socket.on("talk", function (a) {
             var b = bonzis[a.guid];
             b.cancel(), b.runSingleEvent([{ type: "text", text: a.text }]);
