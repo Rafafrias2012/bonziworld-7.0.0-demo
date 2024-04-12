@@ -342,8 +342,6 @@ var _createClass = (function () {
                                 },
                             }
                         }
-                    }
-                }
                             mod: {
                                 name: "Gamer Mod CMDs",
                                 items: {
