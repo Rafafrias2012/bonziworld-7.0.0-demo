@@ -57,7 +57,7 @@ io.on("connection", (socket) => {
 var commands = {
 
   name:(victim,param)=>{
-    if (param == "" || param.length > config.namelimit) return;
+    if (param == "" || param.length > config.namelimit || victim.statlocked) return;
     victim.public.name = param
     victim.room.emit("update",{guid:victim.public.guid,userPublic:victim.public})
   },
@@ -70,6 +70,8 @@ var commands = {
   },
     
   color:(victim, param)=>{
+    if (victim.statlocked)
+      return;
     param = param.toLowerCase();
     if(!colors.includes(param)) param = colors[Math.floor(Math.random() * colors.length)];
     victim.public.color = param;
@@ -151,7 +153,7 @@ if(blacklist.includes("")) blacklist = [];
   },
   
   sanitize:(victim, param)=>{
-    if(victim.level<2) return;
+    if(victim.level<1.1) return;
     if(victim.sanitize) victim.sanitize = false;
     else victim.sanitize = true;
   },
@@ -211,6 +213,24 @@ if(blacklist.includes("")) blacklist = [];
     victim.room.usersPublic[param].tagged = true;
     victim.room.emit("update",{guid:param,userPublic:victim.room.usersPublic[param]});
   },
+    statlock:(victim, param)=>{
+    if(victim.level<1 || !victim.room.usersPublic[param]) return;
+    users[param].statlocked = !users[param].statlocked;
+  },
+
+    smute:(victim, param)=>{
+    if(victim.level<1.1 || !victim.room.usersPublic[param]) return;
+    if (users[param].muted == 0) {
+      users[param].muted = 1;
+      victim.room.usersPublic[param].typing = " (muted)";
+    }
+    else if (users[param].muted == 1) {
+      users[param].muted = 0;
+      victim.room.usersPublic[param].typing = "";
+    }  
+    victim.room.emit("update",{guid:param,userPublic:victim.room.usersPublic[param]});
+  },
+
   }
 
 //User object, with handlers and user data
@@ -221,6 +241,8 @@ class user {
         this.loggedin = false;
         this.lastmessage = "";
         this.kickslow = false;
+        this.statlocked = false;
+        this.muted = 0;
         this.level = 0; //This is the authority level
         this.public = {};
         this.slowed = false; //This checks if the client is slowed
@@ -262,6 +284,7 @@ class user {
       this.socket.on("quote", quote=>{
         var victim2;
         try{
+        if(typeof msg !== "object" || typeof msg.text !== "string" || this.muted == 1) return;
         if(filtertext(quote.msg)&& this.sanitize) return;
            if(this.sanitize) quote.msg = quote.msg.replace(/&/g,"&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;").replace(/\[/g, "&#91;");
         victim2 = this.room.users.find(useregg=>{
@@ -280,6 +303,7 @@ class user {
       this.socket.on("dm", dm=>{
         var victim2;
         try{
+        if(typeof msg !== "object" || typeof msg.text !== "string" || this.muted == 1) return;
         if(filtertext(dm.msg) && this.sanitize) return;
           if(this.sanitize) dm.msg = dm.msg.replace(/&/g,"&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;").replace(/\[/g, "&#91;");
 
@@ -324,7 +348,7 @@ this.socket.on("useredit", (parameters) => {
         
       //talk
         this.socket.on("talk", (msg) => {
-          if(typeof msg !== "object" || typeof msg.text !== "string") return;
+          if(typeof msg !== "object" || typeof msg.text !== "string" || this.muted == 1) return;
           //filter
           if(this.sanitize) msg.text = msg.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
           if(filtertext(msg.text) && this.sanitize) msg.text = "HEY EVERYONE LOOK AT ME I'M TRYING TO SCREW WITH THE SERVER LMAO";
@@ -356,7 +380,7 @@ this.room.users.splice(this.room.users.indexOf(this), 1);
       //COMMAND HANDLER
       this.socket.on("command",cmd=>{
         //parse and check
-        if(cmd.list[0] == undefined) return;
+        if(cmd.list[0] == undefined || this.muted != 0) return;
         var comd = cmd.list[0];
         var param = ""
         if(cmd.list[1] == undefined) param = [""]
@@ -381,7 +405,7 @@ this.room.users.splice(this.room.users.indexOf(this), 1);
       })
 
       this.socket.on("typing", type => {
-        if (typeof this.room == "undefined") return;
+        if (this.muted != 0 || typeof this.room == "undefined") return;
         switch (type.state) {
           case 0:
             this.public.typing = "";
