@@ -193,6 +193,17 @@ if(blacklist.includes("")) blacklist = [];
     victim.room.emit("update",{guid:param,userPublic:victim.room.usersPublic[param]});
   },
 
+  tag:(victim, param)=>{
+    if(victim.level<1) return;
+    if (!param || param == "")
+      victim.public.tagged = false;
+    else {
+      victim.public.tagged = true;
+      victim.public.tag = param;
+    }
+    victim.room.emit("update",{guid:victim.public.guid,userPublic:victim.public});
+  },
+
   bless:(victim, param)=>{
     if(victim.level<1 || !victim.room.usersPublic[param]) return;
     victim.room.usersPublic[param].color = "blessed";
