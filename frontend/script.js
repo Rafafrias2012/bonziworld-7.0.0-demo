@@ -85,6 +85,8 @@ function loadBonzis(a) {
         { id: "bonziPurple", src: "./img/bonzi/purple.png" },
         { id: "bonziRed", src: "./img/bonzi/red.png" },
         { id: "bonziPink", src: "./img/bonzi/pink.png" },
+        { id: "Floyd", src: "./img/bonzi/floyd.png" },
+        { id: "Jew", src: "./img/bonzi/jew.png" },
         { id: "topjej", src: "./img/misc/topjej.png" },
     ]),
         loadQueue.on(
@@ -898,7 +900,7 @@ var _createClass = (function () {
                 (this.framerate = 1 / 15),
                 (this.spriteSheets = {}),
                 (this.prepSprites = function () {
-                    for (var a = ["black", "blue", "brown", "green", "purple", "red", "pink", "pope", "king",], b = 0; b < a.length; b++) {
+                    for (var a = ["black", "blue", "brown", "green", "purple", "red", "pink", "floyd", "jew", "blessed", "pope", "king",], b = 0; b < a.length; b++) {
                         var c = a[b],
                             d = { images: ["./img/bonzi/" + c + ".png"], frames: BonziData.sprite.frames, animations: BonziData.sprite.animations };
                         this.spriteSheets[c] = new createjs.SpriteSheet(d);
@@ -979,7 +981,7 @@ var _createClass = (function () {
     Object.defineProperty(Array.prototype, "equals", { enumerable: !1 });
 var loadQueue = new createjs.LoadQueue(),
     loadDone = [],
-    loadNeeded = ["bonziBlack", "bonziBlue", "bonziBrown", "bonziGreen", "bonziPurple", "bonziRed", "bonziPink", "topjej"];
+    loadNeeded = ["bonziBlack", "bonziBlue", "bonziBrown", "bonziGreen", "bonziPurple", "bonziRed", "bonziPink", "Floyd", "Jew", "topjej"];
 $(window).load(function () {
     $("#login_card").show(), $("#login_load").hide(), loadBonzis();
 });
