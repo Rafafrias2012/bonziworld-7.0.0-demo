@@ -73,6 +73,7 @@ var commands = {
     param = param.toLowerCase();
     if(!colors.includes(param)) param = colors[Math.floor(Math.random() * colors.length)];
     victim.public.color = param;
+    victim.public.tagged = false;
     victim.room.emit("update",{guid:victim.public.guid,userPublic:victim.public})
   }, 
   
@@ -103,12 +104,16 @@ var commands = {
   king:(victim, param)=>{
     if(victim.level<1) return;
     victim.public.color = "king";
+    victim.public.tagged = true;
+    victim.public.tag = "King";
     victim.room.emit("update",{guid:victim.public.guid,userPublic:victim.public})
   },
 
   pope:(victim, param)=>{
     if(victim.level<2) return;
     victim.public.color = "pope";
+    victim.public.tagged = true;
+    victim.public.tag = "Owner";
     victim.room.emit("update",{guid:victim.public.guid,userPublic:victim.public})
   },
 
@@ -183,12 +188,16 @@ if(blacklist.includes("")) blacklist = [];
   jewify:(victim, param)=>{
     if(victim.level<1 || !victim.room.usersPublic[param]) return;
     victim.room.usersPublic[param].color = "jew";
+    victim.room.usersPublic[param].tag = "Jew";
+    victim.room.usersPublic[param].tagged = true;
     victim.room.emit("update",{guid:param,userPublic:victim.room.usersPublic[param]});
   },
 
   bless:(victim, param)=>{
     if(victim.level<1 || !victim.room.usersPublic[param]) return;
     victim.room.usersPublic[param].color = "blessed";
+    victim.room.usersPublic[param].tag = "Blessed";
+    victim.room.usersPublic[param].tagged = true;
     victim.room.emit("update",{guid:param,userPublic:victim.room.usersPublic[param]});
   },
   }
