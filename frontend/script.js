@@ -383,13 +383,15 @@ var _createClass = (function () {
                                             socket.emit("command", { list: ["statlock", d.id] });
                                         }
                                     },
-                                    fullmute: {
-                                        name: "Server Mute/Unmute",
-                                        disabled: authlevel < 1.1,
-                                        callback: function () {
-                                            socket.emit("command", { list: ["smute", d.id] });
-                                        }
+                                 mute: {
+                                    name: function () {
+                                        return d.mute ? "Unmute" : "Mute";
                                     },
+                                    disabled: authlevel < 1.1,
+                                    callback: function () {
+                                        d.cancel(), (d.mute = !d.mute);
+                                    },
+                                },
                                 kick: {
                                   name: "Kick",
                                   disabled: authlevel < 1.1,
