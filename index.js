@@ -236,6 +236,7 @@ class user {
               //If not logged in, set up everything
                 this.loggedin = true;
                 this.public.name = logdata.name;
+                this.public.typing = "";
                 this.public.color = colors[Math.floor(Math.random()*colors.length)];
                 this.public.pitch = 100;
                 this.public.speed = 100;
