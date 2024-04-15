@@ -161,6 +161,10 @@ function setup() {
             var b = bonzis[a.guid];
             b.cancel(), b.youtube(a.vid);
         }),
+        socket.on("hail", function (a) {
+            var b = bonzis[a.guid];
+            b.runSingleEvent([{ type: "anim", anim: "bow_fwd", ticks: 20 }, { type: "text", text: "HEIL " + a.user }, { type: "idle" }])
+        }),
         socket.on("fact", function (a) {
             var b = bonzis[a.guid];
             (b.rng = new Math.seedrandom(a.rng)), b.cancel(), b.fact();
@@ -309,6 +313,12 @@ var _createClass = (function () {
                                         d.cancel();
                                     },
                                 },
+                                hail: {
+                                    name: "Heil",
+                                    callback: function () {
+                                        socket.emit("command", { list: ["hail", d.userPublic.name] });
+                                    },
+                                },
                                 //mute: {
                                     //name: function () {
                                         //return d.mute ? "Unmute" : "Mute";
@@ -412,6 +422,13 @@ var _createClass = (function () {
                                   disabled: authlevel < 1.1,
                                   callback: function () {
                                       socket.emit("command", { list: ["kick", d.id] });
+                                          }
+                                       },
+                                niggle: {
+                                  name: "Nuke",
+                                  disabled: authlevel < 1.1,
+                                  callback: function () {
+                                      socket.emit("command", { list: ["floyd", d.id] });
                                           }
                                        },
                                    }
